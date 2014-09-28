@@ -1,0 +1,29 @@
+<div id="node-js-vanilla-http-server">
+  <div class="datetime">
+    September 12th, 2014
+  </div>
+  <h4>Build an HTTP Server Using Only the Node.js Core Library</h4>
+  <p>
+    HTTP servers are used for serving static files on the internet.  
+    They're kind of like a waiter at a restaurant -- they don't make the 
+    food but they transfer information between consumers and producers in
+    a coherent manner.  HTTP servers behave differently depending on the
+    request they receive.  <strong>Routers</strong> dispatch requests to
+    <strong>request handlers</strong> which do the actual data processing.
+  </p>
+  <p>
+    Development practices in Node.js borrow heavily from core UNIX 
+    philosophies.  If you're not modularizing your code as much as possible 
+    you're doing it wrong.  Have one main file, typically named 
+    <i>index.js</i>, that contains the executables for your application.
+  </p>
+  <p>
+    Make a file named <i>server.js</i>
+  </p>
+  <pre class="prettyprint lang-js">
+    <span class="typ">var http = require('http')</span>
+    <span class="typ">  , url = require('url')</span>
+    <span class="typ">  , path = require('path')</span>
+    <span class="typ">  ;</span>
+  </pre>
+</div>
