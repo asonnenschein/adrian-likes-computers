@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="vendor/bootstrap-v.3.2.0.min.css" />
+    <link rel="stylesheet" href="vendor/prettify.css" />
+    <link rel="stylesheet" href="style/prettify-desert.css" />
+    <link rel="stylesheet" href="style/base.css" />
+    <title>Adrian Sonnenschein</title>
+  </head>
+  <body>
+    <header class="header-description">
+      <div class="container">
+        <div class="nav pull-right">
+          Professional internaut | Programmer of the open web
+        </div>
+      </div>
+    </header>
+    <header class="header-nav">
+      <div class="container">
+        <div class="header">
+          <ul class="nav nav-pills pull-right">
+            <li><a href="/thoughts">Thoughts</a></li>
+            <li><a href="/work">Work</a></li>
+            <li><a href="/play">Play</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="https://github.com/asonnenschein">Code</a></li>
+            <li><a href="https://twitter.com/doggyhuck">@doggyhuck</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  <script src="nunjucks.js"></script>
+  <script src="vendor/jquery-1.11.0.js"></script>
+  <script src="vendor/bootstrap-v3.2.0.min.js"></script>
+  <script src="vendor/prettify.js"></script>
+  </body>
+</html>

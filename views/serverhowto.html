@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<html>
+  <head>
+  	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  	<title>Node JS HTTP Server</title>
+  </head>
+  <body>
+    <div class="container">
+      <h3>
+        This tutorial explains how to build a basic HTTP server with tools 
+        provided in the core Node.js library.  
+      </h3>
+      <p>
+        HTTP servers are used for serving static files on the internet.  
+        They're kind of like a waiter at a restaurant -- they don't make the 
+        food but they transfer information between consumers and producers in
+        a coherent manner.  HTTP servers behave differently depending on the
+        request they receive.  <strong>Routers</strong> dispatch requests to
+        <strong>request handlers</strong> which do the actual data processing.
+      </p>
+      <p>
+        Development practices in Node.js borrow heavily from core UNIX 
+        philosophies.  If you're not modularizing your code as much as possible 
+        you're doing it wrong.  Have one main file, typically named 
+        <i>index.js</i>, that contains the executables for your application.
+      </p>
+      <p>
+        Make a file named <i>server.js</i>
+        <pre class="prettyprint">
+          var http = require("http")
+            , url = require("url")
+            , path = require("path")
+            ;
+
+          function start (route, handle) {
+            function onRequest (request, response) {
+              var pathname = url.parse(request.url).pathname;
+              var root = path.dirname(require.main.filename);
+              var static = path.join(root, "../client");
+
+              route(handle, static, pathname, response);
+            };
+
+            http.createServer(onRequest).listen(8888);
+            console.log("Server has started.");
+          }
+
+          exports.start = start;
+        </pre>
+      </p>
+    </div>
+  <script>
+    !function ($) {
+      $(function(){
+        window.prettyPrint && prettyPrint()
+      })
+    }(window.jQuery)
+  </script>
+
+  </body>
+</html>
+
