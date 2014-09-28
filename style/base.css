@@ -9,13 +9,30 @@ body {
 
 .header-nav li a {
   padding-top: 5px;
-  padding-left: 10px;
+  padding-left: 12px;
   padding-right: 0px;
 }
 
 .header-nav .nav li a:hover {
   background-color: transparent;
   color: black;
+}
+
+.footer-nav {
+  margin-top: 20px;
+}
+
+.footer-nav .pull-right {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer-nav .container {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .content-header h1 {
@@ -32,4 +49,5 @@ body {
 
 .thought {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 25px;
 }
