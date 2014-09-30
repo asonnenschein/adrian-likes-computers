@@ -51,3 +51,20 @@ body {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   margin-top: 25px;
 }
+
+.divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+#work .experience {
+  margin-top: 25px;
+}
+
+#work small {
+  padding-left: 10px;
+}
+
+#work h4 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

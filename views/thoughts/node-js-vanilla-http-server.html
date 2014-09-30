@@ -1,6 +1,6 @@
 <div id="node-js-vanilla-http-server">
   <div class="datetime">
-    September 12th, 2014
+    September 12, 2014
   </div>
   <h4>Build an HTTP Server Using Only the Node.js Core Library</h4>
   <p>
@@ -17,13 +17,36 @@
     you're doing it wrong.  Have one main file, typically named 
     <i>index.js</i>, that contains the executables for your application.
   </p>
-  <p>
-    Make a file named <i>server.js</i>
-  </p>
-  <pre class="prettyprint lang-js">
-    <span class="typ">var http = require('http')</span>
-    <span class="typ">  , url = require('url')</span>
-    <span class="typ">  , path = require('path')</span>
-    <span class="typ">  ;</span>
-  </pre>
+  <div class="server-js">
+    <p>
+      Make a file named <i>server.js</i>
+    </p>
+    <pre class="prettyprint lang-js">
+      <span class="typ">var http = require('http')</span>
+      <span class="typ">  , url = require('url')</span>
+      <span class="typ">  , path = require('path')</span>
+      <span class="typ">  ;</span>
+
+      <span class="typ">function start (route, handle) {</span>
+        <span class="typ">function onRequest (req, res) {</span>
+          <span class="typ">var pathname = url.parse(req.url).pathname</span>
+            <span class="typ">, root = path.dirname(require.main.filename)</span>
+            <span class="typ">, static = path.join(root, 'client')</span>
+            <span class="typ">;</span>
+        <span class="typ">route(handle, static, pathname, res);</span>
+        <span class="typ">}</span>
+        <span class="typ">http.createServer(onRequest).listen('3000');</span>
+        <span class="typ">console.log('Server has started');</span>
+      <span class="typ">}</span>
+
+      <span class="typ">exports.start = start;</span></pre>
+  </div>
+  <div class="router-js">
+    <p>
+      Make a file named <i>router.js</i>
+    </p>
+    <pre class="prettyprint lang-js">
+      
+    </pre>
+  </div>
 </div>

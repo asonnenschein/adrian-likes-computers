@@ -1,0 +1,45 @@
+<div id="node-js-unix-command-line-tool">
+  <div class="datetime">
+    September 21, 2014
+  </div>
+  <h4>Command-line Interface Utilities With Node.js</h4>
+  <p>
+    A lightweight, asynchronous and event-based I/O combined with the kind of
+    simplicity and modularity that <a href="https://www.npmjs.org/">npm</a> 
+    encourages makes Node.js an excellent platform for building command-line 
+    utilities.  Let's examine how to build a UNIX command-line utility for 
+    transforming an XML text file to JSON.
+  </p>
+  <p>
+    To get started we'll need a file directory to work out of and we'll need to 
+    initialize the directory as a node package.  Let's also make the main file
+    for the utility which will control the flow of received command line 
+    arguments:
+  </p>
+  <pre class="prettyprint">
+    <span class="tag">// make a directory in the filesystem</span>
+    <span class="typ">$ mkdir isoxmltojson</span>
+    <span class="typ">$ cd isoxmltojson</span>
+
+    <span class="tag">// initialize the directory as a node package and make the main file</span>
+    <span class="typ">$ npm init</span>
+    <span class="typ">$ touch index.js</span></pre>
+  <p>
+    After filling out the package form, it will be saved as 'package.json'.  
+    Open 'package.json' in a text editor and make sure to include some external
+    dependencies as well as the name of the module:
+  </p>
+  <pre class="prettyprint">
+    <span class="tag">// add a key called 'dependencies'</span>
+    <span class="typ">"dependencies": {</span>
+      <span class="typ">"async": "0.5.0",</span>
+      <span class="typ">"commander": "2.3.0",</span>
+      <span class="typ">"xml2json": "0.5.1"</span>
+    <span class="typ">}</span>
+
+    <span class="tag">// add a key called 'preferGlobal' and a key called 'bin'</span>
+    <span class="typ">"preferGlobal": "true",</span>
+    <span class="typ">"bin": {</span>
+      <span class="typ">"isoxmltojson": "index.js"</span>
+    <span class="typ">}</span></pre>
+</div>
