@@ -93,6 +93,7 @@
         <span class="typ">console.log('  $ cat some.xml | isoxmltojson -s');</span>
       <span class="typ">});</span>
 
+      <span class="tag">// pass process arguments into the 'program' object</tag>
       <span class="typ">program.parse(process.argv);</span></pre>
     <p>
       At this point we've got a command-line tool that can receive arguments, 
@@ -135,4 +136,9 @@
           <span class="typ">process.stdout.write(json);</span>
         <span class="typ">});</span>
       <span class="typ">}</span></pre>
+    <p>
+      And that's a wrap!  Now you should be able to execute the tool like this:
+    </p>
+    <pre class="prettyprint">
+      <span class="typ">$ cat some.xml | isoxmltojson -s</span></pre>
 </div>
