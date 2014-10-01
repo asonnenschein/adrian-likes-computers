@@ -42,4 +42,97 @@
     <span class="typ">"bin": {</span>
       <span class="typ">"isoxmltojson": "index.js"</span>
     <span class="typ">}</span></pre>
+    <p>
+      To finish setting up the project, we'll need to install the external 
+      dependencies and create a symbolic link between the module we're 
+      developing and the modules that we depend on:
+    </p>
+    <pre class="prettyprint">
+      <span class="tag">// install external dependencies</span>
+      <span class="typ">$ npm install</span>
+
+      <span class="tag">// symlink this module</span>
+      <span class="typ">$ npm link</span></pre>
+    <p>
+      Now we should be able to access <i>index.js</i> by typing 
+      <b>isoxmltojson</b> into the command-line.  Our project is setup and now
+      we're ready to write some code!
+    </p>
+    <p>
+      In <i>index.js</i>, the first line of code should be a shebang which will 
+      allow the code to be run as system commands:
+    </p>
+    <pre class="prettyprint">
+      <span class="typ">#!/usr/bin/env node</span></pre>
+    <p>
+      Next, load the program dependencies:
+    </p>
+    <pre class="prettyprint">
+      <span class="typ">var program = require('commander')</span>
+        <span class="typ">, async = require('async')</span>
+        <span class="typ">, xml2json = require('xml2json')</span>
+        <span class="typ">;</span></pre>
+    <p>
+      We're using <a href="https://www.npmjs.org/package/commander">commander</a>
+      to build the command-line interface and parse input arguments.  When 
+      writing production code, we probably wouldn't make any command options 
+      for a tool like this because it only does one thing.  We would just have 
+      the default behaviour of the tool perform the single operation.  But for 
+      the sake of showing what Node is capable of I've included an option for
+      operating on input/output streams:
+    </p>
+    <pre class="prettyprint">
+      <span class="typ">program</span>
+        <span class="typ">.version('0.0.1')</span>
+        <span class="typ">.option('s, --stream', 'streaming i/o')</span>
+        <span class="typ">;</span>
+
+      <span class="typ">program.on('--help', function () {</span>      
+        <span class="typ">console.log('  Examples:');</span>
+        <span class="typ">console.log('');</span>
+        <span class="typ">console.log('  $ cat some.xml | isoxmltojson -s');</span>
+      <span class="typ">});</span>
+
+      <span class="typ">program.parse(process.argv);</span></pre>
+    <p>
+      At this point we've got a command-line tool that can receive arguments, 
+      but that doesn't actually <i>do</i> anything when it receives arguments.
+      You should be able to go into a terminal and access the command-line tool
+      and you should be able to at least view the <b>help</b>:
+    </p>
+    <pre class="prettyprint">
+      <span class="typ">$ isoxmltojson --help</span></pre>
+    <p>
+      So let's add some logic to execute when the program receives a stream of
+      text.  We'll use <a href="https://www.npmjs.org/package/async">async</a> to set
+      up a queue based on the arguments that the program receives:
+    </p>
+    <pre class="prettyprint">
+      <span class="typ">var queue = [];</span>
+      <span class="typ">if (program.stream) queue.push(stream)</span>
+      <span class="typ">async.series(queue);</span></pre>
+    <p>
+      In this example we're mapping xml to json, so the <b>stream</b> function 
+      should receive a read stream of text, perform the transformation and then 
+      stream out the result:
+    </p>
+    <pre class="prettyprint">
+      <span class="typ">function stream () {</span>
+        <span class="typ">var response = '';</span>
+        <span class="typ">process.stdin.resume();</span>
+        <span class="typ">process.stdin.setEncoding('utf8');</span>
+      
+        <span class="typ">process.stdin.on('data', function (data) {</span>
+          <span class="typ">response += data;</span>
+        <span class="typ">});</span>
+      
+        <span class="typ">process.stdin.on('end', function () {</span>
+          <span class="typ">var json = xml2json.toJson(response, {</span>
+            <span class="typ">object: true,</span>
+            <span class="typ">reversible: true</span>
+          <span class="typ">});</span>
+          <span class="typ">json = JSON.stringify(json);</span>
+          <span class="typ">process.stdout.write(json);</span>
+        <span class="typ">});</span>
+      <span class="typ">}</span></pre>
 </div>
