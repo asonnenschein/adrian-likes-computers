@@ -1,0 +1,95 @@
+<div id="node-js-unix-command-line-tool">
+  <div class="datetime">
+    September 18, 2014
+  </div>
+  <h4>Deploy Multiple Solr Cores with Tomcat in Ubuntu 12.04</h4>
+  <p>
+    Apache Solr is a popular open source search Java search platform from the
+    Lucene project.  Apache Tomcat is a powerful, reliable and easy to use 
+    Java servlet and Web server.  Let's have a look at how to deploy multiple
+    Solr cores on top of Tomcat.
+  </p>
+  <p>
+    From your home directory, install Tomcat7 and Solr-4.6.0:
+  </p>
+  <pre class="prettyprint">
+    <span class="typ">$ cd ~/</span>
+    <span class="typ">$ sudo apt-get install tomcat7</span>
+    <span class="typ">$ wget https://archive.apache.org/dist/lucene/solr/4.6.0/solr-4.6.0.tgz</span>
+    <span class="typ">$ tar -zxvf solr-4.6.0.tgz</span></pre>
+  <p>
+    Move the Solr files and software we need for deployment into a directory
+    with root access:
+  </p>
+  <pre class="prettyprint">
+    <span class="typ">$ sudo mkdir /opt/solr</span>
+    <span class="typ">$ sudo cp -r ~/solr-4.6.0/example/solr/* /opt/solr/</span>
+    <span class="typ">$ sudo cp -r ~/solr-4.6.0/example/webapps/solr.war /opt/solr/</span></pre>
+  <p>
+    Make directories for the deployable Solr cores, using <b>collection1</b> as
+    a template:
+  </p>
+  <pre class="prettyprint">
+    <span class="typ">$ cd /opt/solr</span>
+    <span class="typ">$ sudo cp -r collection1 multicore-1</span>
+    <span class="typ">$ sudo cp -r collection1 multicore-2</span></pre>
+  <p>
+    Make directories for the deployable Solr cores, using <b>collection1</b> as
+    a template:
+  </p>
+  <pre class="prettyprint">
+    <span class="typ">$ cd /opt/solr</span>
+    <span class="typ">$ sudo cp -r collection1 multicore-1</span>
+    <span class="typ">$ sudo cp -r collection1 multicore-2</span></pre>
+  <p>
+    Edit <b>solr.xml</b> so that it reflects the multiple cores:
+  </p>
+  <pre class="prettyprint">
+    <span class="tag"># /opt/solr/solr.xml</span>
+    <span class="typ">&#60;?xml version="1.0" encoding="utf-8" ?&#62;</span>
+    <span class="typ">&#60;solr persistent="true" sharedLib="lib"&#62;</span>
+      <span class="typ">&#60;cores adminPath="/admin/cores"&#62;</span>
+        <span class="typ">&#60;core name="multicore-1" instanceDir="multicore-1"&#62;</span>
+          <span class="typ">&#60;property name="dataDir" value="/opt/solr/multicore-1/data" /&#62;</span>
+        <span class="typ">&#60;/core&#62;</span>
+        <span class="typ">&#60;core name="multicore-2" instanceDir="multicore-2"&#62;</span>
+          <span class="typ">&#60;property name="dataDir" value="/opt/solr/multicore-2/data" /&#62;</span>
+        <span class="typ">&#60;/core&#62;</span>
+      <span class="typ">&#60;/cores&#62;</span>
+    <span class="typ">&#60;/solr&#62;</span></pre>
+  <p>
+    Copy all of the <b>jar</b> files from the Solr lib to the Tomcat lib and 
+    update the <b>log4j.properties</b> with the new multicore search directory:
+  </p>
+  <pre class="prettyprint">
+    <span class="typ">$ sudo cp -r ~/solr-4.6.0/example/lib/ext/* /usr/share/tomcat7/lib</span>
+    <span class="typ">$ sudo cp -r ~/solr-4.6.0/example/resources/log4j.properties /usr/share/tomcat7/lib</span>
+    <span class="typ">$ sudo nano /usr/share/tomcat7/lib/log4j.properties</span>
+    <span class="tag"># only change the 'solr.log' variable</span>
+    <span class="typ">solr.log=/opt/solr</span></pre>
+  <p>
+    Add a Solr configuration file to Tomcat:
+  </p>
+  <pre class="prettyprint">
+    <span class="typ">$ sudo touch /etc/tomcat7/Catalina/localhost/solr.xml</span></pre>
+  <p>
+    And edit <b>solr.xml</b> so that it points to the multicore Solr directory:
+  </p>
+  <pre class="prettyprint">
+    <span class="tag"># /etc/tomcat7/Catalina/localhost/solr.xml</span>
+    <span class="typ">&#60;?xml version="1.0" encoding="utf-8" ?&#62;</span>
+    <span class="typ">&#60;Context docBase="/opt/solr/solr.war" debug="0" crossContext="true"&#62;</span>
+      <span class="typ">&#60;Environment name="solr/home" type="java.lang.String" value="/opt/solr" override="true"/&#62;</span>
+    <span class="typ">&#60;/Context&#62;</span></pre>
+  <p>
+    Give ownership of the Solr multicore directory to <b>tomcat7</b> and restart
+    the Tomcat server:
+  </p>
+  <pre class="prettyprint">
+    <span class="typ">$ sudo chown -R tomcat7 /opt/solr</span>
+    <span class="typ">$ sudo service tomcat7 restart</span></pre>
+  <p>
+    Head over to <a href="http://localhost:8080/solr">http://localhost:8080/solr</a>
+    to confirm that everything works!
+  </p>
+</div>
