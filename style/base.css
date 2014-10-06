@@ -68,3 +68,37 @@ body {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+/*****************************/
+/* JS Style Leaflet With CSS */
+/*****************************/
+
+#leaflet-style-vectors-css {
+  height: 200px;
+}
+
+@font-face {
+  font-family: 'bootstrap-glyphicons';
+  src: url(glyphicons-halflings-regular.ttf);
+}
+
+.house-icon:after {
+  font-family: 'bootstrap-glyphicons';
+  content: '\e021';
+  font-size: 20px;
+  color: black;
+}
+
+.camera-icon:after {
+  font-family: 'bootstrap-glyphicons';
+  content: '\e046';
+  font-size: 20px;
+  color: black;
+}
+
+.marker-icon:after {
+  font-family: 'bootstrap-glyphicons';
+  content: '\e062';
+  font-size: 20px;
+  color: black;
+}

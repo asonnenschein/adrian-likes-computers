@@ -1,0 +1,151 @@
+<div id="js-style-leaflet-icons-with-css">
+  <div class="datetime">
+    October 4, 2014
+  </div>
+  <h4>Style Leaflet Icons With Bootstrap CSS</h4>
+  <p>
+    <a href="http://leafletjs.com/">Leaflet</a> is the most popular JavaScript
+    mapping library available and for good reason.  It's minimalistic approach
+    to mapping allows users to mold Leaflet to their application rather than 
+    mold their application to work with Leaflet.  Experienced GIS pros are 
+    encouraged to use existing plugins or write their own to accomplish 
+    complicated tasks likes clustering and interpolation, while novices tend 
+    to boast being able to get a simple map working in a couple of hours.
+  </p>
+  <p>
+    Vector features in a Leaflet map can be styled in a variety of ways.  The
+    most common ways to style features are with dynamic SVGs 
+    (Scalable Vector Graphics) styled on-the-fly in the browser and premade 
+    icons, generally in either *.pdf or *.svg format.  An often overlooked way
+    to style vector data is with CSS.  This has the advantage of allowing us to 
+    use CSS transitions, hovers and even true-type font sheets in symbologies - 
+    not to mention faster rendering and load times than loading a bunch of 
+    images.
+  </p>
+  <p>
+    Let's have a look at how to render and style vector point symbologies from 
+    <a href="http://geojson.org/">GeoJSON</a> with <a href="http://getbootstrap.com/components/#glyphicons">
+    Twitter Bootstrap glyphicons</a>:
+  </p>
+  <i>index.html:</i>
+  <pre class="prettyprint">
+    <span class="typ">&#60;!doctype html&#62;</span>
+    <span class="typ">&#60;html lang="en"&#62;</span>
+      <span class="typ">&#60;head&#62;</span>
+        <span class="typ">&#60;meta charset="utf-8"&#62;</span>
+        <span class="typ">&#60;meta name="viewport" content="width=device-width, initial-scale=1.0"&#62;</span>
+        <span class="typ">&#60;link rel="stylesheet" href="vendor/leaflet-0.7.3.css" /&#62;</span>
+        <span class="typ">&#60;link rel="stylesheet" href="style/base.css" /&#62;</span>
+        <span class="typ">&#60;body&#62;</span>
+          <span class="typ">&#60;div id="map"&#62;&#60;/div&#62;</span>
+          <span class="typ">&#60;script src="scripts/app.js"&#62;&#60;/script&#62;</span>
+        <span class="typ">&#60;/body&#62;</span>
+      <span class="typ">&#60;/head&#62;</span>
+    <span class="typ">&#60;/html&#62;</span></pre>
+
+  <i>base.css</i>
+  <pre class="prettyprint">
+    <span class="typ">@font-face {</span>
+      <span class="typ">font-family: 'bootstrap-glyphicons';</span>
+      <span class="typ">src: url(glyphicons-halflings-regular.ttf);</span>
+    <span class="typ">}</span>
+
+    <span class="typ">@house-icon:after {</span>
+      <span class="typ">font-family: 'bootstrap-glyphicons';</span>
+      <span class="typ">content: '\e021';</span>
+      <span class="typ">font-size: 20px;</span>
+      <span class="typ">ccolor: black;</span>
+    <span class="typ">}</span>
+
+    <span class="typ">@camera-icon:after {</span>
+      <span class="typ">font-family: 'bootstrap-glyphicons';</span>
+      <span class="typ">content: '\e046';</span>
+      <span class="typ">font-size: 20px;</span>
+      <span class="typ">ccolor: black;</span>
+    <span class="typ">}</span>
+
+    <span class="typ">@marker-icon:after {</span>
+      <span class="typ">font-family: 'bootstrap-glyphicons';</span>
+      <span class="typ">content: '\e062';</span>
+      <span class="typ">font-size: 20px;</span>
+      <span class="typ">ccolor: black;</span>
+    <span class="typ">}</span></pre>
+
+  <i>app.js</i>
+  <pre class="prettyprint">
+    <span class="typ">(function () {</span>
+      <span class="typ">var data</span>
+        <span class="typ">, map</span>
+        <span class="typ">, baseMap</span>
+        <span class="typ">;</span>
+
+      <span class="typ">data = [{</span>
+        <span class="typ">"type": "Feature",</span>
+        <span class="typ">"properties": {</span>
+          <span class="typ">"symbol": "house"</span>
+        <span class="typ">},</span>
+        <span class="typ">"geometry": {</span>
+          <span class="typ">"type": "Point",</span>
+          <span class="typ">"coordinates": [-110.979935, 32.244518]</span>
+        <span class="typ">}</span>
+      <span class="typ">},{</span>
+        <span class="typ">"type": "Feature",</span>
+        <span class="typ">"properties": {</span>
+          <span class="typ">"symbol": "camera"</span>
+        <span class="typ">},</span>
+        <span class="typ">"geometry": {</span>
+          <span class="typ">"type": "Point",</span>
+          <span class="typ">"coordinates": [-110.877625, 32.207923]</span>
+        <span class="typ"><span class="typ">}</span>
+      <span class="typ">},{</span>
+        <span class="typ">"type": "Feature",</span>
+        <span class="typ">"properties": {</span>
+          <span class="typ">"symbol": "marker"</span>
+        <span class="typ">},</span>
+        <span class="typ">"geometry": {</span>
+          <span class="typ">"type": "Point",</span>
+          <span class="typ">"coordinates": [-110.923630, 32.206180]</span>
+        <span class="typ">}</span>
+      <span class="typ">}];</span>
+
+      <span class="typ">map = L.map('leaflet-style-vectors-css')</span>
+        <span class="typ">.setView([32.216637, -110.938737], 11);</span>
+
+      <span class="typ">baseMap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {</span>
+        <span class="typ">detectRetina: true</span>
+      <span class="typ"><span class="typ">});</span>
+
+      <span class="typ">layer = L.geoJson(data, {</span>
+        <span class="typ">pointToLayer: function (feature, latlng) {</span>
+          <span class="typ">var tag</span>
+            <span class="typ">, symbol</span>
+            <span class="typ">, icon</span>
+            <span class="typ">;</span>
+
+          <span class="typ">symbol = feature.properties.symbol;</span>
+
+          <span class="typ">switch (symbol) {</span>
+            <span class="typ">case 'house':</span>
+              <span class="typ">tag = 'house-icon';</span>
+              <span class="typ">break;</span>
+            <span class="typ">case 'camera':</span>
+              <span class="typ">tag = 'camera-icon';</span>
+              <span class="typ">break;</span>
+            <span class="typ">case 'marker':</span>
+              <span class="typ">tag = 'marker-icon';</span>
+              <span class="typ">break;</span>
+          <span class="typ">}</span>
+
+          <span class="typ">icon = new L.divIcon({className: tag});</span>
+
+          <span class="typ">return L.marker(latlng, {icon: icon});</span>
+        <span class="typ">}</span>
+      <span class="typ">});</span>
+
+      <span class="typ">baseMap.addTo(map);</span>
+      <span class="typ">layer.addTo(map);</span>
+    <span class="typ">})();</span></pre>
+
+  <i>and the final product!</i>
+  <div id="leaflet-style-vectors-css"></div>
+</div>
