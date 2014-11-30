@@ -1,9 +1,12 @@
 {% extends "index.html" %}
 
-{% block content %}
+{% block content_header %}
   <div class="content-header">
     <h1>Thoughts</h1>
   </div>
+{% endblock %}
+
+{% block content %}
   <div class="thought">
     {% include "thoughts/js-style-leaflet-icons-with-css.html" %}
   </div>

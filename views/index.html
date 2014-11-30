@@ -13,27 +13,35 @@
     <title>Adrian Sonnenschein</title>
   </head>
   <body>
-    <header class="header-description">
+    <div class="header">
       <div class="container">
-        <div class="nav pull-right">
-          Professional Internaut | Open source web programmer
+        <div class="row">
+          <div class="col-md-4">
+            {% block content_header %}
+            {% endblock %}
+          </div>
+          <div class="col-md-8">
+            <div class="header-items">
+              <header class="header-description">
+                <div class="nav pull-right">
+                  Adrian Sonnenschein | Open source web programmer
+                </div>
+              </header>
+              <header class="header-nav">
+                <ul class="nav nav-pills pull-right">
+                  <li><a href="/thoughts">Thoughts</a></li>
+                  <li><a href="/work">Work</a></li>
+                  <li><a href="/play">Play</a></li>
+                  <li><a href="/about">About</a></li>
+                  <li><a href="https://github.com/asonnenschein">Code</a></li>
+                  <li><a href="https://twitter.com/doggyhuck">@doggyhuck</a></li>
+                </ul>
+              </header>
+            </div>
+          </div>
         </div>
       </div>
-    </header>
-    <header class="header-nav">
-      <div class="container">
-        <div class="header">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="/thoughts">Thoughts</a></li>
-            <li><a href="/work">Work</a></li>
-            <li><a href="/play">Play</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="https://github.com/asonnenschein">Code</a></li>
-            <li><a href="https://twitter.com/doggyhuck">@doggyhuck</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
+    </div>
     <div class="content">
       <div class="container">
         {% block content %}
