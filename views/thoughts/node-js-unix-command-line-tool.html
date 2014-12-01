@@ -5,15 +5,15 @@
   <h4>Command-line Interface Utilities With Node.js</h4>
   <p>
     A lightweight, asynchronous and event-based I/O combined with the kind of
-    simplicity and modularity that <a href="https://www.npmjs.org/">npm</a> 
-    encourages makes Node.js an excellent platform for building command-line 
-    utilities.  Let's examine how to build a UNIX command-line utility for 
+    simplicity and modularity that <a href="https://www.npmjs.org/">npm</a>
+    encourages makes Node.js an excellent platform for building command-line
+    utilities.  Let's examine how to build a UNIX command-line utility for
     transforming an XML text file to JSON.
   </p>
   <p>
-    To get started we'll need a file directory to work out of and we'll need to 
+    To get started we'll need a file directory to work out of and we'll need to
     initialize the directory as a node package.  Let's also make the main file
-    for the utility which will control the flow of received command line 
+    for the utility which will control the flow of received command line
     arguments:
   </p>
   <pre class="prettyprint">
@@ -25,7 +25,7 @@
     <span class="typ">$ npm init</span>
     <span class="typ">$ touch index.js</span></pre>
   <p>
-    After filling out the package form, it will be saved as 'package.json'.  
+    After filling out the package form, it will be saved as 'package.json'.
     Open 'package.json' in a text editor and make sure to include some external
     dependencies as well as the name of the module:
   </p>
@@ -43,8 +43,8 @@
       <span class="typ">"isoxmltojson": "index.js"</span>
     <span class="typ">}</span></pre>
     <p>
-      To finish setting up the project, we'll need to install the external 
-      dependencies and create a symbolic link between the module we're 
+      To finish setting up the project, we'll need to install the external
+      dependencies and create a symbolic link between the module we're
       developing and the modules that we depend on:
     </p>
     <pre class="prettyprint">
@@ -54,12 +54,12 @@
       <span class="tag">// symlink this module</span>
       <span class="typ">$ npm link</span></pre>
     <p>
-      Now we should be able to access <i>index.js</i> by typing 
+      Now we should be able to access <i>index.js</i> by typing
       <b>isoxmltojson</b> into the command-line.  Our project is setup and now
       we're ready to write some code!
     </p>
     <p>
-      In <i>index.js</i>, the first line of code should be a shebang which will 
+      In <i>index.js</i>, the first line of code should be a shebang which will
       allow the code to be run as system commands:
     </p>
     <pre class="prettyprint">
@@ -74,10 +74,10 @@
         <span class="typ">;</span></pre>
     <p>
       We're using <a href="https://www.npmjs.org/package/commander">commander</a>
-      to build the command-line interface and parse input arguments.  When 
-      writing production code, we probably wouldn't make any command options 
-      for a tool like this because it only does one thing.  We would just have 
-      the default behaviour of the tool perform the single operation.  But for 
+      to build the command-line interface and parse input arguments.  When
+      writing production code, we probably wouldn't make any command options
+      for a tool like this because it only does one thing.  We would just have
+      the default behaviour of the tool perform the single operation.  But for
       the sake of showing what Node is capable of I've included an option for
       operating on input/output streams:
     </p>
@@ -87,7 +87,7 @@
         <span class="typ">.option('s, --stream', 'streaming i/o')</span>
         <span class="typ">;</span>
 
-      <span class="typ">program.on('--help', function () {</span>      
+      <span class="typ">program.on('--help', function () {</span>
         <span class="typ">console.log('  Examples:');</span>
         <span class="typ">console.log('');</span>
         <span class="typ">console.log('  $ cat some.xml | isoxmltojson -s');</span>
@@ -96,7 +96,7 @@
       <span class="tag">// pass process arguments into the 'program' object</tag>
       <span class="typ">program.parse(process.argv);</span></pre>
     <p>
-      At this point we've got a command-line tool that can receive arguments, 
+      At this point we've got a command-line tool that can receive arguments,
       but that doesn't actually <i>do</i> anything when it receives arguments.
       You should be able to go into a terminal and access the command-line tool
       and you should be able to at least view the <b>help</b>:
@@ -113,8 +113,8 @@
       <span class="typ">if (program.stream) queue.push(stream)</span>
       <span class="typ">async.series(queue);</span></pre>
     <p>
-      In this example we're mapping xml to json, so the <b>stream</b> function 
-      should receive a read stream of text, perform the transformation and then 
+      In this example we're mapping xml to json, so the <b>stream</b> function
+      should receive a read stream of text, perform the transformation and then
       stream out the result:
     </p>
     <pre class="prettyprint">
@@ -122,11 +122,11 @@
         <span class="typ">var response = '';</span>
         <span class="typ">process.stdin.resume();</span>
         <span class="typ">process.stdin.setEncoding('utf8');</span>
-      
+
         <span class="typ">process.stdin.on('data', function (data) {</span>
           <span class="typ">response += data;</span>
         <span class="typ">});</span>
-      
+
         <span class="typ">process.stdin.on('end', function () {</span>
           <span class="typ">var json = xml2json.toJson(response, {</span>
             <span class="typ">object: true,</span>

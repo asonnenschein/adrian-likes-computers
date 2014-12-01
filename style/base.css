@@ -8,6 +8,10 @@ body {
   src: url('glyphicons-halflings-regular.ttf');
 }
 
+a h4 {
+  color: #000;
+}
+
 .container {
   max-width: 768px;
 }
