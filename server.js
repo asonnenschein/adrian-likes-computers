@@ -28,6 +28,11 @@ server.get('/thoughts', function (req, res) {
   res.render('thoughts.html');
 });
 
+server.get('/thoughts/:thought', function (req, res) {
+  var thought = req.params.thought;
+  res.render('/thoughts/' + thought);
+});
+
 server.get('/work', function (req, res) {
   res.render('work.html');
 });

@@ -4,7 +4,7 @@
   "description": "Website and http server for adrianlikescomputers.com",
   "main": "index.js",
   "dependencies" : {
-    "express": "4.6.0",
+    "express": "4.10.04",
     "nunjucks": "1.0.7"
   },
   "scripts": {
