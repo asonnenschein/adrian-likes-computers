@@ -8,6 +8,10 @@ body {
   src: url('glyphicons-halflings-regular.ttf');
 }
 
+small {
+  padding-left: 5px;
+}
+
 a h4 {
   color: #000;
 }
@@ -16,12 +20,15 @@ a h4 {
   max-width: 768px;
 }
 
-.header-items {
-
+.content-header {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
 }
 
 .header-nav li a {
-  padding-top: 5px;
+  padding-top: 0px;
   padding-left: 12px;
   padding-right: 0px;
 }
@@ -29,6 +36,10 @@ a h4 {
 .header-nav .nav li a:hover {
   background-color: transparent;
   color: black;
+}
+
+.header-description {
+  letter-spacing: 0.1px;
 }
 
 .footer-nav {
@@ -57,17 +68,7 @@ a h4 {
   font-size: 12px;
 }
 
-.thought {
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  margin-top: 25px;
-}
-
-.hobby {
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  margin-top: 25px;
-}
-
-.divider {
+.content-divider {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -87,10 +88,6 @@ a h4 {
 #work .partners {
   color: gray;
   font-size: 12px;
-}
-
-.bio {
-  margin-top: 25px;
 }
 
 .bio img {

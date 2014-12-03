@@ -1,3 +1,6 @@
+{% extends 'index.html' %}
+
+{% block content %}
 <div id="node-js-unix-command-line-tool">
   <div class="datetime">
     September 18, 2014
@@ -5,7 +8,7 @@
   <h4>Deploy Multiple Solr Cores with Tomcat in Ubuntu 12.04</h4>
   <p>
     Apache Solr is a popular open source search Java search platform from the
-    Lucene project.  Apache Tomcat is a powerful, reliable and easy to use 
+    Lucene project.  Apache Tomcat is a powerful, reliable and easy to use
     Java servlet and Web server.  Let's have a look at how to deploy multiple
     Solr cores on top of Tomcat.
   </p>
@@ -58,7 +61,7 @@
       <span class="typ">&#60;/cores&#62;</span>
     <span class="typ">&#60;/solr&#62;</span></pre>
   <p>
-    Copy all of the <b>jar</b> files from the Solr lib to the Tomcat lib and 
+    Copy all of the <b>jar</b> files from the Solr lib to the Tomcat lib and
     update the <b>log4j.properties</b> with the new multicore search directory:
   </p>
   <pre class="prettyprint">
@@ -93,3 +96,4 @@
     to confirm that everything works!
   </p>
 </div>
+{% endblock %}
