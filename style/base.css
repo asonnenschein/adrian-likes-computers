@@ -16,6 +16,11 @@ a h4 {
   color: #000;
 }
 
+.header {
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
 .container {
   max-width: 768px;
 }
