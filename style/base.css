@@ -8,6 +8,28 @@ body {
   src: url('glyphicons-halflings-regular.ttf');
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'toronto-gothic';
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  font-size: 45px;
+}
+
+h4 {
+  font-size: 27px;
+}
+
+.experience h3, .proficiencies h3, .education h3 {
+  font-size: 27px;
+}
+
+.experience h4, .proficiencies h4, .education h4 {
+  font-size: 24px;
+}
+
 small {
   padding-left: 5px;
 }

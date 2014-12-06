@@ -1,0 +1,28 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 2934698, 2014-12-06T01:42:55-0500
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: TorontoGothic by E-phemera
+ * URL: http://www.myfonts.com/fonts/ephemera/toronto-gothic/toronto-gothic/
+ * Copyright: ©2002 by Andrew Leman. Digitized from vintage copies of the Toronto Star.
+ * Licensed pageviews: 10,000
+ *
+ *
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=2934698
+ *
+ * © 2014 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+
+/* @import url("//hello.myfonts.net/count/2cc7aa"); */
+
+
+@font-face {font-family: 'toronto-gothic';src: url('webfonts/2CC7AA_0_0.eot');src: url('webfonts/2CC7AA_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2CC7AA_0_0.woff2') format('woff2'),url('webfonts/2CC7AA_0_0.woff') format('woff'),url('webfonts/2CC7AA_0_0.ttf') format('truetype');}
