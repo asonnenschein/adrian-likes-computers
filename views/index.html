@@ -35,49 +35,68 @@
     <title>Adrian Sonnenschein</title>
   </head>
   <body>
-    <div class="header">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-4">
-            {% block content_header %}
-            {% endblock %}
+    <div id="holder">
+      <header>
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#adrian-likes-computers-navbar" aria-expanded="false">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              {% block content_header %}
+              {% endblock %}
+            </div>
+            <div class="navbar-collapse collapse" id="adrian-likes-computers-navbar" aria-expanded="false">
+              <ul class="nav navbar-nav pull-right header-nav">
+                <li><a href="/thoughts">Thoughts</a></li>
+                <li><a href="/work">Work</a></li>
+                <li><a href="/play">Play</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="https://github.com/asonnenschein">Code</a></li>
+                <li><a href="https://twitter.com/doggyhuck">@doggyhuck</a></li>
+              </ul>
+            </div>
           </div>
-          <div class="col-xs-8">
-            <div class="header-items">
-              <header class="header-description">
-                <div class="nav pull-right">
-                  Adrian Sonnenschein | Open source web programmer
+        </nav>
+      </header>
+      <header class="header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              {% block content_header %}
+              {% endblock %}
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <div class="pull-right">
+                <div class="header-description nav">
+                    Adrian Sonnenschein | Open source web programmer
                 </div>
-              </header>
-              <header class="header-nav">
-                <ul class="nav nav-pills pull-right">
-                  <li><a href="/thoughts">Thoughts</a></li>
-                  <li><a href="/work">Work</a></li>
-                  <li><a href="/play">Play</a></li>
-                  <li><a href="/about">About</a></li>
-                  <li><a href="https://github.com/asonnenschein">Code</a></li>
-                  <li><a href="https://twitter.com/doggyhuck">@doggyhuck</a></li>
-                </ul>
-              </header>
+                <div class="header-nav">
+                  <ul class="nav nav-pills">
+                    <li><a href="/thoughts">Thoughts</a></li>
+                    <li><a href="/work">Work</a></li>
+                    <li><a href="/play">Play</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="https://github.com/asonnenschein">Code</a></li>
+                    <li><a href="https://twitter.com/doggyhuck">@doggyhuck</a></li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </header>
+      <div class="content">
+        <div class="container">
+          {% block content %}
+          {% endblock %}
+        </div>
       </div>
-    </div>
-    <div class="content">
-      <div class="container">
-        {% block content %}
-        {% endblock %}
-      </div>
-    </div>
-  <script src="/vendor/jquery-1.11.0.js"></script>
-  <script src="/vendor/bootstrap-v3.2.0.min.js"></script>
-  <script src="/vendor/prettify.js"></script>
-  <script src="/vendor/leaflet-0.7.3.js"></script>
-  <script src="/scripts/js-style-leaflet-icons-wth-css.js"></script>
-  </body>
-  <footer>
-    <div class="footer-nav">
+    </body>
+    <footer class="footer-nav">
       <div class="container">
         <div class="footer-divider">
           <div class="pull-right">
@@ -91,16 +110,21 @@
           </div>
         </div>
       </div>
-    </div>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      <script src="/vendor/jquery-1.11.0.js"></script>
+      <script src="/vendor/bootstrap-v3.2.0.min.js"></script>
+      <script src="/vendor/prettify.js"></script>
+      <script src="/vendor/leaflet-0.7.3.js"></script>
+      <script src="/scripts/js-style-leaflet-icons-wth-css.js"></script>
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'UA-56126916-1', 'auto');
-      ga('send', 'pageview');
+        ga('create', 'UA-56126916-1', 'auto');
+        ga('send', 'pageview');
 
-    </script>
-  </footer>
+      </script>
+    </footer>
+  </div>
 </html>

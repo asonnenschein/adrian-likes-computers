@@ -1,6 +1,31 @@
+html, body {
+  height: 100%;
+}
+
 body {
   background-color: #ffffff;
   color: #000000;
+}
+
+#holder {
+  min-height: 100%;
+  position: relative;
+}
+
+.content {
+  padding-bottom: 60px;
+}
+
+footer {
+  height: 60px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+}
+
+.container {
+  max-width: 768px;
 }
 
 @font-face {
@@ -14,12 +39,14 @@ h1, h2, h3, h4, h5, h6 {
   font-style: normal;
 }
 
-h1 {
+h1.content-header {
   font-size: 45px;
 }
 
-h4 {
+h2 {
   font-size: 27px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .experience h3, .proficiencies h3, .education h3 {
@@ -34,8 +61,15 @@ small {
   padding-left: 5px;
 }
 
-a h4 {
+a h2 {
   color: #000;
+}
+
+.datetime {
+  color: #000;
+  font-style: italic;
+  opacity: 0.5;
+  font-size: 12px;
 }
 
 a.fill-div {
@@ -46,16 +80,13 @@ a.fill-div {
 }
 
 a.fill-div:hover {
+  transition: all 0.3s ease;
   background-color: #6bb9f0;
 }
 
 .header {
   padding-top: 15px;
   padding-bottom: 10px;
-}
-
-.container {
-  max-width: 768px;
 }
 
 .content-header {
@@ -77,6 +108,7 @@ a.fill-div:hover {
 }
 
 .header-description {
+  padding-left: 13px;
   letter-spacing: 0.1px;
 }
 
@@ -90,20 +122,12 @@ a.fill-div:hover {
 }
 
 .footer-nav .container {
-  padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .footer-nav .footer-divider {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   line-height: 30px;
-}
-
-.datetime {
-  padding-top: 5px;
-  font-style: italic;
-  opacity: 0.5;
-  font-size: 12px;
 }
 
 .content-divider {
