@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+{% block content_header %}
+<h1 class="content-header">Thoughts</h1>
+{% endblock %}
+
+{% block content %}
+<div id="debugging-ie-on-mac">
+  <div class="datetime">
+    October 15, 2014
+  </div>
+  <h2>Debugging Internet Explorer on a Mac</h2>
+  <p>
+    If you're a web developer with industry experience, the words "Internet"
+    and "Explorer" spoken together probably make you cringe.  Sometimes I have
+    dreams about a world where programmers only write code for other
+    programmers and in this world we only have to be accountable for Mozilla
+    Firefox and Google Chrome.  Sadly, this world only exists in my imagination
+    and as developers we need to make sure that the user has a positive
+    experience with the software - even if they're using IE 8.
+  </p>
+  <p>
+    Aside from the disregard for HTML, CSS and JavaScript standards (this has
+    gotten better with IE versions 10 and 11), another reason web developers
+    dislike IE is that it only runs natively on Microsoft operating systems.
+    Most of the interent runs on Unix based operating systems, so most web
+    programmers prefer to do their work in Unix based environments.  Thankfully,
+    Microsoft has recognized this discrepancy and supports virtual machine disk
+    images for testing/debugging IE on non-Microsoft operating systems.  Even
+    better is that Github user <a href="https://github.com/xdissent/ievms">
+    xdissent</a> has written a Bash script for getting all of the development
+    environments set-up:
+  </p>
+  <ul>
+    <li>
+      Make sure you have Oracle VirtualBox installed.  If not you can download
+      it for you respective operating system
+      <a href="https://www.virtualbox.org/wiki/Downloads">here</a>.
+    </li>
+    <li>
+      Open up a terminal and paste the following command.  This will download
+      and set up all of the Microsoft virtual machine disk images into your
+      VirtualBox.  Be patient, the process might take a few hours.
+  <pre class="prettyprint">
+  <span class="typ">$ curl -s https://raw.githubusercontent.com/xdissent/ievms/master/ievms.sh | bash</span></pre>
+    </li>
+    <li>
+      After the script is finished executing, you should have have bootable
+      virtual machines for IE versions 6, 7, 8, 9, 10 and 11 installed in your
+      VirtualBox.
+    </li>
+  </ul>
+  <p>
+    With everything installed, you'll still need to make some manual changes to
+    each individual virtual machine that you want to debug on.  Specifically,
+    the virtual machine need to be enabled to listen to an outer IP (i.e.
+    localhost on your native operating system):
+  </p>
+  <ul>
+    <li>
+      Make sure your network settings for the virtual machine are kept as
+      <b>NAT</b>.
+    </li>
+    <li>
+      Start the virtual machine and open the <b>hosts</b> file in a text editor:
+  <pre class="prettyprint">
+  <span class="typ">C:\windows\system32\drivers\etc\hosts</span></pre>
+    </li>
+    <li>
+      Add the following entry to the <b>hosts</b> file:
+  <pre class="prettyprint">
+  <span class="typ">10.0.2.2    outer</span></pre>
+    </li>
+    <li>
+      Access the website you have running locally on your native operating
+      system via <b>http://10.0.2.2:PORT</b>.  For example, if you have a
+      website running locally on port 3000 of your native operating system,
+      you can access it through the virtual machine via
+      <b>http://10.0.2.2:3000</b>
+    </li>
+  </ul>
+  <p>
+    Happy degugging Internet Explorer!
+  </p>
+</div>
+{% endblock %}
