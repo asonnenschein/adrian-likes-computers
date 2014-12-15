@@ -1,0 +1,124 @@
+{% extends 'index.html' %}
+
+{% block content_header %}
+<h1 class="content-header">Thoughts</h1>
+{% endblock %}
+
+{% block content %}
+<div id="deploying-django-fcgi-nginx">
+  <div class="datetime">
+    November 8, 2014
+  </div>
+  <h2>Deploying Django in Production with FastCGI and Nginx</h2>
+  <p>
+    <a href="https://www.djangoproject.com/">Django</a> is a free and open
+    source Python web framework which follows the model-view-controller (MVC)
+    design pattern and encourages rapid development and iteration.
+  </p>
+  <p>
+    <a href="https://pypi.python.org/pypi/flup/1.0">FastCGI</a> is a free and
+    open source protocol for connecting external applications to web servers
+    and it supports server-side caching, allowing requests to be served
+    instantly with no startup time.
+  </p>
+  <p>
+    <a href="http://nginx.com/">Nginx</a> is a free and open source high-performance HTTP server, reverse proxy server and load balancer.
+  </p>
+  <p>
+    Combined, these three technologies can provide a highly scalabale, secure
+    and efficient production web server.  This tutorial assumes that you
+    already have a Django project that you're able to run in development.  If
+    not, they've got some of the best <a href="https://docs.djangoproject.com/en/1.7/intro/install/">documentation</a> I've ever seen on an open source
+    project.  Here's how to deploy it all in production with FastCGI and Nginx
+    on Ubuntu 12.04 LTS:
+  </p>
+  <p>
+    For the sake of example we'll use <b>/home/ubuntu/my-django-project</b> as
+    the root Django project folder and we'll assume that the <b>static</b> and
+    <b>media</b> folders live there as well.
+  </p>
+  <p>
+    First let's make sure Nginx and FastCGI are installed.  Both items have
+    package manager support - Nginx can be installed via <b>apt-get</b> and
+    we'll install a Python implementation of FastCGI called
+    <a href="https://pypi.python.org/pypi/flup/1.0">flup</a> via <b>pip</b>.
+    We'll also install <a href="http://upstart.ubuntu.com/">upstart</a>, an
+    event-based daemon for starting, stopping and supervising processes:
+  <pre class="prettyprint">
+  <span class="typ">$ apt-get install nginx</span>
+  <span class="typ">$ apt-get install upstart</span>
+  <span class="typ">$ pip install flup</span></pre>
+  </p>
+  <p>
+    To run the Django server with <b>flup</b>, we'll use the <b>runfcgi</b>
+    command instead of <b>runserver</b> and wrap it all in an <b>upstart</b>
+    script called <b>django-process</b> to daemonize the process:
+  <pre class="prettyprint">
+  <span class="typ">$ touch /etc/init/django-process.conf</span>
+  <span class="typ">$ nano /etc/init/django-process.conf</span></pre>
+  </p>
+  <p>
+    And insert this text into <b>django-process.conf</b>:
+  <pre class="prettyprint">
+  <span class="typ">#!/bin/bash</span>
+  <span class="typ">start on runlevel [2345]</span>
+  <span class="typ">stop on runlevel [!2345]</span>
+  <span class="typ">respawn</span>
+  <span class="typ">exec /usr/bin/python ./home/ubuntu/my-django-project/manage.py runfcgi host=127.0.0.1 port=8000 >> /home/ubuntu/django.log 2>&1</span></pre>
+  </p>
+  <p>
+    In addition to daemonizing and supervising the process, the <b>upstart</b>
+    script allows us to start and stop the process through some easier commands:
+  <pre class="prettyprint">
+  <span class="typ">$ start django-process</span>
+  <span class="typ">$ stop django-process</span></pre>
+  </p>
+  <p>
+    Finally, we'll configure Nginx to route incoming traffic and to serve out
+    static files.  Make a new configuration file in the <b>sites-available</b>
+    subdirectory of the <b>nginx</b> directory and enable it with a symbolic
+    link to the <b>sites-enabled</b> subdirectory:
+  <pre class="prettyprint">
+  <span class="typ">$ touch /etc/nginx/sites-available/django-config</span>
+  <span class="typ">$ ln -s /etc/nginx/sites-available/django-config /etc/nginx/sites-enabled/django-config</span></pre>
+  </p>
+  <p>
+    And insert this text into <b>django-config</b>:
+  <pre class="prettyprint">
+  <span class="typ">server {</span>
+  <span class="typ">  listen 80;</span>
+  <span class="typ">  server_name mywebsite.com</span>
+  <span class="typ">  access_log /home/ubuntu/django-config.access.log</span>
+  <span class="typ">  error_log /home/ubuntu/django-config.error.log</span>
+  <span class="typ"></span>
+  <span class="typ">  location /static/ {</span>
+  <span class="typ">    alias /home/ubuntu/my-django-project/static/;</span>
+  <span class="typ">    expires 30d;</span>
+  <span class="typ">  }</span>
+  <span class="typ"></span>
+  <span class="typ">  location /media/ {</span>
+  <span class="typ">    alias /home/ubuntu/my-django-project/media/;</span>
+  <span class="typ">    expires 30d;</span>
+  <span class="typ">  }</span>
+  <span class="typ"></span>
+  <span class="typ">  location / {</span>
+  <span class="typ">    include fastcgi_params;</span>
+  <span class="typ">    fastcgi_pass 127.0.0.1:8000;</span>
+  <span class="typ">    fastcgi_split_path_info ^()(.*)$;</span>
+  <span class="typ">  }</span>
+  <span class="typ">}</span></pre>
+  </p>
+  <p>
+    Reload Nginx to make sure the changes are put into production and make sure
+    the Django process is running as well:
+  <pre class="prettyprint">
+  <span class="typ">$ start django-process</span>
+  <span class="typ">$ reload nginx</span></pre>
+  </p>
+  <p>
+    Navigate to whatever IP address or domain name you entered as the
+    <b>server_name</b> parameter in the Nginx config and have a look at your
+    website!
+  </p>
+</div>
+{% endblock %}
