@@ -1,50 +1,42 @@
-var express = require('express')
-  , nunjucks = require('nunjucks')
-  , fs = require('fs')
-  , path = require('path')
-  ;
+'use strict';
 
+
+var express = require('express');
 var server = express();
+var nunjucks = require('nunjucks');
+var path = require('path');
 
-var images = path.join(__dirname, 'images')
-  , style = path.join(__dirname, 'style')
-  , script = path.join(__dirname, 'script')
-  , vendor = path.join(__dirname, 'vendor')
-  , fonts = path.join(__dirname, 'fonts')
-  ;
 
-nunjucks.configure('views', {
-  autoescape: true,
-  express: server
+nunjucks.configure(
+    ['views', 'views/thoughts'], {
+    autoescape: true,
+    express: server,
+    watch: true
 });
 
-server.use('/style', express.static(style));
-server.use('/scripts', express.static(script));
-server.use('/images', express.static(images));
-server.use('/vendor', express.static(vendor));
-server.use('/fonts', express.static(fonts));
+server.use('/static', express.static(path.join(__dirname, '/static')));
 
-server.get('/thoughts', function (req, res) {
-  res.render('thoughts.html');
-});
+server.get('/thoughts',
+    function (req, res, next) {
+        res.render('thoughts.html');
+    });
 
-server.get('/thoughts/:thought', function (req, res) {
-  var thought = req.params.thought;
-  res.render('/thoughts/' + thought);
-});
+server.get('/thoughts/:thought',
+    function (req, res, next) {
+        var thought = path.format({root: 'thoughts/', name: req.params.thought, ext: '.html'});
+        res.render(thought);
+    });
 
-server.get('/work', function (req, res) {
-  res.render('work.html');
-});
+server.get('/work',
+    function (req, res) {
+        res.render('work.html');
+    });
 
-server.get('/play', function (req, res) {
-  res.render('play.html');
-});
-
-server.get('/about', function (req, res) {
-  res.render('about.html');
-});
+server.get('/about',
+    function (req, res) {
+        res.render('about.html');
+    });
 
 server.listen(3000, function () {
-  console.log('Listening on port %d', this.address().port);
+    console.log('Listening on port %d', this.address().port);
 });

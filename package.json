@@ -1,23 +1,23 @@
 {
-  "name": "adrian-likes-computers",
-  "version": "0.0.0",
-  "description": "Website and http server for adrianlikescomputers.com",
-  "main": "index.js",
-  "dependencies" : {
-    "express": "4.10.04",
-    "nunjucks": "1.0.7"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/asonnenschein/adrian-likes-computers.git"
-  },
-  "author": "Adrian Sonnenschein",
-  "license": "BSD-2-Clause",
-  "bugs": {
-    "url": "https://github.com/asonnenschein/adrian-likes-computers/issues"
-  },
-  "homepage": "https://github.com/asonnenschein/adrian-likes-computers"
+    "name": "adrian-likes-computers",
+    "version": "0.0.0",
+    "description": "Website and http server for adrianlikescomputers.com",
+    "main": "index.js",
+    "dependencies": {
+        "express": "^4.14.1",
+        "nunjucks": "^3.0.0"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/asonnenschein/adrian-likes-computers.git"
+    },
+    "author": "Adrian Sonnenschein",
+    "license": "BSD-2-Clause",
+    "bugs": {
+        "url": "https://github.com/asonnenschein/adrian-likes-computers/issues"
+    },
+    "homepage": "https://github.com/asonnenschein/adrian-likes-computers",
 }
