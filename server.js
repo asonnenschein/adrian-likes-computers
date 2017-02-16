@@ -1,42 +1,71 @@
 'use strict';
 
 
-var express = require('express');
-var server = express();
-var nunjucks = require('nunjucks');
-var path = require('path');
+require('dotenv').config();
 
+const express = require('express');
+const server = express();
+const jwt = require('jsonwebtoken');
+const database = require('./database');
+const middleware = require('./middleware')(database, jwt);
+const views = require('./views')(database, jwt);
 
-nunjucks.configure(
-    ['views', 'views/thoughts'], {
-    autoescape: true,
-    express: server,
-    watch: true
-});
+server.set('port', process.env.PORT);
 
-server.use('/static', express.static(path.join(__dirname, '/static')));
+// User Routes ================================================================
+server.post('/register/',
+    (req, res, next) => {
+        return next();
+    }, views.postRegister);
 
-server.get('/thoughts',
-    function (req, res, next) {
-        res.render('thoughts.html');
+server.post('/login/',
+    middleware.login,
+    (req, res, next) => {
+
     });
 
-server.get('/thoughts/:thought',
-    function (req, res, next) {
-        var thought = path.format({root: 'thoughts/', name: req.params.thought, ext: '.html'});
-        res.render(thought);
+server.get('/logout/',
+    middleware.requireAuthorization,
+    (req, res, next) => {
+
     });
 
-server.get('/work',
-    function (req, res) {
-        res.render('work.html');
-    });
+server.get('/auth/',
+    middleware.requireAuthorization,
+    (req, res, next) => {
+        return next();
+    }, views.getAuth);
 
-server.get('/about',
-    function (req, res) {
-        res.render('about.html');
-    });
+server.get('/user/:username/',
+    middleware.requireAuthorization,
+    (req, res, next) => {
+        return next();
+    }, views.getUser);
 
-server.listen(3000, function () {
-    console.log('Listening on port %d', this.address().port);
-});
+
+// Public Routes ==============================================================
+server.get('/work/',
+    (req, res, next) => {
+        return next();
+    }, views.getWork);
+
+server.get('/about/',
+    (req, res, next) => {
+        return next();
+    }, views.getAbout);
+
+server.get('/thoughts/:thoughts_id?/',
+    (req, res, next) => {
+        return next();
+    }, views.getThoughts);
+
+server.post('/thoughts/:thoughts_id/',
+    middleware.requireAuthorization,
+    (req, res, next) => {
+        return next();
+    }, views.postThought);
+
+
+module.exports = (callback) => {
+    callback(server);
+};
