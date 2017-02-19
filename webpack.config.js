@@ -22,7 +22,7 @@ module.exports = {
         preLoaders: [
             {
                 test: /\.jsx?$/,
-                loader: 'eslint',
+                loader: 'eslint-loader',
                 exclude: /node_modules/
             }
         ],
@@ -30,13 +30,13 @@ module.exports = {
             {
                 test: /\.jsx?/,
                 include: SRC_DIR,
-                loader: "react-hot!babel"
+                loader: "react-hot-loader!babel-loader"
             }, {
                 test: /\.css$/,
                 loader: "style-loader!css-loader"
             }, {
                 test: /\.less$/,
-                loader: "style!css!autoprefixer!less"
+                loader: "style-loader!css-loader!autoprefixer-loader!less-loader"
             }, {
                 test: /\.png$/,
                 loader: "url-loader?limit=100000"
