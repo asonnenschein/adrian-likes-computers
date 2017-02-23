@@ -3,8 +3,8 @@ const React = require('react');
 
 module.exports = React.createClass({
 
-    render: function() {
-        return (<div>Hello!</div>);
+    render: () => {
+        return (<div></div>);
     }
 
 });
