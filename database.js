@@ -4,6 +4,8 @@
 const bcrypt = require('bcrypt');
 const knex = require('knex')(process.env.PG_URL);
 const bookshelf = require('bookshelf')(knex);
+const save = bookshelf.Model.prototype.save;
+
 
 bookshelf.Model.prototype.save = function () {
     return save.apply(this, arguments).then(function (model) {
@@ -14,8 +16,12 @@ bookshelf.Model.prototype.save = function () {
 const Users = bookshelf.Model.extend({
     tableName: 'users',
     idAttribute: 'users_id',
-    generateHash: (password) => {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+    initialize: function() {
+        this.on('saving', this.generateHash);
+    },
+    generateHash: () => {
+        console.log(this);
+//        this.attributes.password = bcrypt.hashSync(this.attributes.password, bcrypt.genSaltSync(8), null);
     },
     validPassword: (password) => {
         return bcrypt.compareSync(password, this.get('password'));
@@ -25,7 +31,7 @@ const Users = bookshelf.Model.extend({
         expiry.setDate(expiry.getDate() + 7);
         return jwt.sign({
             users_id: this.attributes.users_id,
-            email: this.attributes.email,
+            username: this.attributes.username,
             exp: parseInt(expiry.getTime() / 1000)
         }, process.env.JWT_SECRET);
     }

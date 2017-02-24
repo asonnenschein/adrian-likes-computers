@@ -4,6 +4,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const bodyparser = require('body-parser');
 const server = express();
 const jwt = require('jsonwebtoken');
 const database = require('./database');
@@ -11,6 +12,8 @@ const middleware = require('./middleware')(database, jwt);
 const views = require('./views')(database, jwt);
 
 server.set('port', process.env.PORT);
+server.use(bodyparser.json({limit: '25mb'}));
+server.use(bodyparser.urlencoded({extended: true}));
 
 // User Routes ================================================================
 server.post('/register/',

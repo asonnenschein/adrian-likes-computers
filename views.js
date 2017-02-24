@@ -4,7 +4,17 @@
 module.exports = (database, jwt) => {
     return {
         postRegister: (req, res, next) => {
+            const username = req.body.username;
+            const password = req.body.password;
+            database.Users
+                .forge({username: username, password: password})
+                .save()
+                .then(function(data) {
 
+                })
+                .catch(function(error) {
+
+                });
         },
 
         getAuth: (req, res, next) => {
