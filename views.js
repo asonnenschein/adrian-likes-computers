@@ -10,10 +10,15 @@ module.exports = (database, jwt) => {
                 .forge({username: username, password: password})
                 .save()
                 .then(function(data) {
-
+                    return res.status(200).json({
+                        token: data.generateJWT(),
+                        user: data.serialize()
+                    });
                 })
                 .catch(function(error) {
-
+                    return res.status(500).json({
+                        error: error
+                    });
                 });
         },
 

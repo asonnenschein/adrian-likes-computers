@@ -11,9 +11,18 @@ const database = require('./database');
 const middleware = require('./middleware')(database, jwt);
 const views = require('./views')(database, jwt);
 
+
 server.set('port', process.env.PORT);
 server.use(bodyparser.json({limit: '25mb'}));
 server.use(bodyparser.urlencoded({extended: true}));
+
+
+// Allow CORS =================================================================
+server.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 // User Routes ================================================================
 server.post('/register/',
