@@ -1,6 +1,8 @@
 const AppDispatcher = require('./../dispatchers/app.jsx');
 const AuthConstants = require('./../constants/auth.jsx');
 const EventEmitter = require('events');
+const request = require('superagent/lib/client');
+//const AuthActions = require('./../actions/auth.jsx');
 
 
 const CHANGE_EVENT = 'change';
@@ -41,6 +43,19 @@ const AuthStoreObj = Object.assign(Object.create(EventEmitter.prototype), {
     },
     getJWT: function() {
         return localStorage.getItem('token');
+    },
+    getInitialState: function() {
+        if (this.isAuthenticated()) {
+            const authURL = `${process.env.BASE_URL}/auth/`;
+            request.get(authURL)
+                .query({auth: this.getJWT()})
+                .end(function(error, response) {
+                    if (error) {
+                        throw error;
+                    }
+                    console.log(response);
+                });
+        }
     }
 });
 
@@ -60,6 +75,8 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload) {
             break;
     }
 });
+
+AuthStore.getInitialState();
 
 
 module.exports = AuthStore;

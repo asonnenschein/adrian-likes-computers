@@ -17,14 +17,18 @@ ReactDOM.render(
     <ReactRouter.Router history={ReactRouter.browserHistory}>
         <ReactRouter.Route path="/login" component={Login} baseURL={process.env.BASE_URL} />
         <ReactRouter.Route path="/register" component={Register} baseURL={process.env.BASE_URL} />
-        <ReactRouter.Route path="/" component={App}>
+
+        <ReactRouter.Route path="/users" component={Users} baseURL={process.env.BASE_URL}>
+            <ReactRouter.Route path="/users/:user" component={User} />
+        </ReactRouter.Route>
+
+        <ReactRouter.Route path="/" component={App} baseURL={process.env.BASE_URL}>
             <ReactRouter.Route path="thoughts" component={Thoughts} />
             <ReactRouter.Route path="work" component={Work} />
             <ReactRouter.Route path="about" component={About} />
-            <ReactRouter.Route path="users" component={Users}>
-                <ReactRouter.Route path="/users/:user" component={User} />
-            </ReactRouter.Route>
         </ReactRouter.Route>
+
+        <ReactRouter.Redirect from="/*" to="/" />
     </ReactRouter.Router>,
     document.getElementById('adrian-likes-computers')
 );

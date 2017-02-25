@@ -31,19 +31,17 @@ server.post('/register/',
     }, views.postRegister);
 
 server.post('/login/',
-    middleware.login,
     (req, res, next) => {
-
-    });
+        return next();
+    }, views.postLogin);
 
 server.get('/logout/',
     middleware.requireAuthorization,
     (req, res, next) => {
-
-    });
+        return next();
+    }, views.getLogout);
 
 server.get('/auth/',
-    middleware.requireAuthorization,
     (req, res, next) => {
         return next();
     }, views.getAuth);

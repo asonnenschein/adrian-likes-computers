@@ -12,6 +12,16 @@ module.exports = React.createClass({
         authenticated: AuthStore.isAuthenticated()
     },
 
+    propTypes: {
+        name: React.PropTypes.string
+    },
+
+    getDefaultProps: function() {
+        return {
+            name: "Register"
+        }
+    },
+
     componentWillMount: function() {
         this.action = `${this.props.route.baseURL}/register/`;
     },
