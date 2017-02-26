@@ -17,21 +17,17 @@ module.exports = (database, jwt) => {
                         .forge({username: username, password: password})
                         .save()
                         .then(function(data) {
-                            return res.status(200).json({
-                                token: data.generateJWT(),
-                                user: data.serialize()
-                            });
+                            const auth = data.generateJWT();
+                            const user = data.serialize();
+                            res.setHeader("Authorization", auth);
+                            return res.status(200).json({user: user});
                         })
                         .catch(function(error) {
-                            return res.status(500).json({
-                                error: error
-                            });
+                            return res.status(500).json({error: error});
                         });
                 })
                 .catch(function(error) {
-                    return res.status(500).json({
-                        error: error
-                    });
+                    return res.status(500).json({error: error});
                 });
         },
 
@@ -45,31 +41,46 @@ module.exports = (database, jwt) => {
                     if (!data) {
                         return res.status(500).json({error: "User does not exist."});
                     }
-                    else if (!data.validPassword(password)) {
+                    if (!data.validPassword(password)) {
                         return res.status(500).json({error: "Password is incorrect."});
                     }
-                    else {
-                        return res.status(200).json({
-                            token: data.generateJWT(),
-                            user: data.serialize()
-                        });
-                    }
+                    const auth = data.generateJWT();
+                    const user = data.serialize();
+                    res.setHeader("Authorization", auth);
+                    return res.status(200).json({user: user});
                 })
                 .catch(function(error) {
-                    return res.status(500).json({
-                        error: error
-                    });
+                    return res.status(500).json({error: error});
                 });
-        },
-
-        getLogout: (req, res, next) => {
-
         },
 
         getAuth: (req, res, next) => {
             const auth = req.query.auth;
-            const decoded = jwt.verify(auth, process.env.JWT_SECRET);
-            console.log(Date.now());
+            try {
+                var decoded = jwt.verify(auth, process.env.JWT_SECRET);
+            }
+            catch (error) {
+                return res.status(500).json({error: "getAuth() Failed: Could not verify auth."});
+            }
+            const now = Date.now() / 1000;
+            if (now > decoded.exp) {
+                return res.redirect('/logout/');
+            }
+            database.Users
+                .forge({users_id: decoded.users_id, username: decoded.username})
+                .fetch()
+                .then(function(data) {
+                    if (!data) {
+                        return res.status(500).json({error: "getAuth() Failed: Could not find user."});
+                    }
+                    const auth = data.generateJWT();
+                    const user = data.serialize();
+                    res.setHeader("Authorization", auth);
+                    return res.status(200).json({user: user});
+                })
+                .catch(function(error) {
+                    return res.status(500).json({error: error});
+                });
         },
 
         getUser: (req, res, next) => {
