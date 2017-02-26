@@ -19,8 +19,10 @@ server.use(bodyparser.urlencoded({extended: true}));
 
 // Allow CORS =================================================================
 server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Expose-Headers", "Authorization");
     next();
 });
 
@@ -38,8 +40,9 @@ server.post('/login/',
 server.get('/logout/',
     middleware.requireAuthorization,
     (req, res, next) => {
-        return next();
-    }, views.getLogout);
+        req.logout();
+        res.status(200).end();
+    });
 
 server.get('/auth/',
     (req, res, next) => {

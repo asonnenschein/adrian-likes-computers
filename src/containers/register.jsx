@@ -23,11 +23,15 @@ module.exports = React.createClass({
     },
 
     componentWillMount: function() {
+        AuthStore.getInitialState()
+        AuthStore.addChangeListener('LOGIN', function() {
+            const username = AuthStore.getUser();
+            return ReactRouter.browserHistory.push(`/users/${username}`);
+        });
         this.action = `${this.props.route.baseURL}/register/`;
     },
 
     processForm: function(event) {
-        const self = this;
         event.preventDefault();
         request.post(this.action)
             .type('form')
@@ -38,9 +42,10 @@ module.exports = React.createClass({
                 if (error) {
                     throw error;
                 }
-                AuthActions.logUserIn(response.body.user, response.body.token);
-                self.setState({authenticated: AuthStore.isAuthenticated()});
-                ReactRouter.browserHistory.push(`/users/${response.body.user.username}/`);
+                const username = response.body.user.username;
+                const auth = response.headers.authorization;
+                AuthActions.logUserIn(username, auth);
+                ReactRouter.browserHistory.push(`/users/${username}/`);
             });
     },
 
