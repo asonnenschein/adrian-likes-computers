@@ -84,7 +84,5 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload) {
     }
 });
 
-AuthStore.getInitialState();
-
 
 module.exports = AuthStore;

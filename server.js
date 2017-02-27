@@ -21,7 +21,7 @@ server.use(bodyparser.urlencoded({extended: true}));
 server.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
     res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     res.setHeader("Access-Control-Expose-Headers", "Authorization");
     next();
 });
@@ -72,7 +72,7 @@ server.get('/thoughts/:thoughts_id?/',
         return next();
     }, views.getThoughts);
 
-server.post('/thoughts/:thoughts_id/',
+server.post('/thoughts/:thoughts_id?/',
     middleware.requireAuthorization,
     (req, res, next) => {
         return next();

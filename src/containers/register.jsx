@@ -8,9 +8,6 @@ const AuthStore = require('./../stores/auth.jsx');
 module.exports = React.createClass({
 
     action: null,
-    state: {
-        authenticated: AuthStore.isAuthenticated()
-    },
 
     propTypes: {
         name: React.PropTypes.string
@@ -20,6 +17,10 @@ module.exports = React.createClass({
         return {
             name: "Register"
         }
+    },
+
+    getInitialState: function() {
+        return {authenticated: AuthStore.isAuthenticated()};
     },
 
     componentWillMount: function() {
@@ -50,7 +51,7 @@ module.exports = React.createClass({
     },
 
     render: function() {
-        return (<div className="container">
+        return (<div>
             <div className="row">
                 <div className="col-md-4"></div>
                 <form className="col-md-4" onSubmit={this.processForm}>

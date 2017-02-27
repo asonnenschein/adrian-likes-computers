@@ -100,7 +100,13 @@ module.exports = (database, jwt) => {
         },
 
         postThought: (req, res, next) => {
-
+            const title = req.body.title;
+            const path = req.body.path;
+            const description = req.body.description;
+            const content = req.body.content;
+            const userID = req.user.id;
+            database.Tutorials
+                .forge({})
         }
     }
 };

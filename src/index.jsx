@@ -11,6 +11,8 @@ const Login = require('./containers/login.jsx');
 const Register = require('./containers/register.jsx');
 const User = require('./containers/user.jsx');
 const Users = require('./containers/users.jsx');
+const EditThought = require('./containers/editthought.jsx');
+const EditAbout = require('./containers/editabout.jsx');
 
 
 ReactDOM.render(
@@ -20,6 +22,8 @@ ReactDOM.render(
 
         <ReactRouter.Route path="/users" component={Users} baseURL={process.env.BASE_URL}>
             <ReactRouter.Route path="/users/:user" component={User} />
+            <ReactRouter.Route path="/users/:user/thoughts(/:thought)" component={EditThought} baseURL={process.env.BASE_URL} />
+            <ReactRouter.Route path="/users/:user/about" component={EditAbout} baseURL={process.env.BASE_URL} />
         </ReactRouter.Route>
 
         <ReactRouter.Route path="/" component={App} baseURL={process.env.BASE_URL}>

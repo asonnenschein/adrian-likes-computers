@@ -9,7 +9,7 @@ module.exports = React.createClass({
 
     render: function() {
         return (<div>
-            <nav className="navbar navbar-default">
+            <nav className="navbar navbar-default navbar-fixed-top">
                 <div className="container">
                     <div className="navbar-header">
                         <NavigationBrand />
