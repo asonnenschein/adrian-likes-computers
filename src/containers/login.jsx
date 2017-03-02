@@ -20,14 +20,24 @@ module.exports = React.createClass({
     },
 
     getInitialState: function() {
-        return {authenticated: AuthStore.isAuthenticated()};
+        return {
+            authenticated: undefined
+        };
     },
 
-    componentWillMount: function() {
-        AuthStore.getInitialState()
-        AuthStore.addChangeListener('LOGIN', function() {
+    componentDidMount: function() {
+        const self = this;
+        AuthStore.isAuthenticated().then(function(auth) {
+            if (!auth) {
+                return ReactRouter.browserHistory.push('/login/');
+            }
+            self.setState({authenticated: true});
             const username = AuthStore.getUser();
-            return ReactRouter.browserHistory.push(`/users/${username}`);
+            const token = AuthStore.getJWT();
+            return AuthActions.logUserIn(username, token);
+        })
+        .catch(function(error) {
+            throw error;
         });
         this.action = `${this.props.route.baseURL}/login/`;
     },
@@ -51,23 +61,28 @@ module.exports = React.createClass({
     },
 
     render: function() {
-        return (<div>
-            <div className="row">
-                <div className="col-md-4"></div>
-                <form className="col-md-4" onSubmit={this.processForm}>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" id="username" ref="username" placeholder="Username" required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" id="password" ref="password" placeholder="Password" required />
-                    </div>
-                    <button type="submit" className="btn btn-lg btn-primary btn-block">Submit</button>
-                </form>
-                <div className="col-md-4"></div>
-            </div>
-        </div>);
+        if (typeof this.state.authenticated === "undefined" || this.state.authenticated) {
+            return (<div></div>);
+        }
+        else {
+            return (<div>
+                <div className="row">
+                    <div className="col-md-4"></div>
+                    <form className="col-md-4" onSubmit={this.processForm}>
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input type="text" className="form-control" id="username" ref="username" placeholder="Username" required />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input type="password" className="form-control" id="password" ref="password" placeholder="Password" required />
+                        </div>
+                        <button type="submit" className="btn btn-lg btn-primary btn-block">Submit</button>
+                    </form>
+                    <div className="col-md-4"></div>
+                </div>
+            </div>);
+        }
     }
 
 });

@@ -1,25 +1,23 @@
 const AppDispatcher = require('./../dispatchers/app.jsx');
 const AuthConstants = require('./../constants/auth.jsx');
-const AuthActions = require('./../actions/auth.jsx');
 const ReactRouter = require('react-router');
 const EventEmitter = require('events');
 const request = require('superagent/lib/client');
-
+const bPromise = require('bluebird');
 
 const LOGIN_EVENT = 'LOGIN';
 const LOGOUT_EVENT = 'LOGOUT';
 
-
 function setUser(username, token) {
-    if (!localStorage.getItem('token') || localStorage.getItem('token') === 'undefined') {
-        localStorage.setItem('username', username);
-        localStorage.setItem('token', token);
-    }
+    localStorage.setItem('username', username);
+    localStorage.setItem('token', token);
+    localStorage.setItem('lastCheck', Date.now());
 }
 
 function removeUser() {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
+    localStorage.setItem('lastCheck');
 }
 
 const AuthStoreObj = Object.assign(Object.create(EventEmitter.prototype), {
@@ -32,7 +30,7 @@ const AuthStoreObj = Object.assign(Object.create(EventEmitter.prototype), {
     removeChangeListener: function(event, callback) {
         this.removeListener(event, callback);
     },
-    isAuthenticated: function() {
+    hasAuthentication: function() {
         if (localStorage.getItem('token')) {
             return true;
         }
@@ -40,30 +38,32 @@ const AuthStoreObj = Object.assign(Object.create(EventEmitter.prototype), {
             return false;
         }
     },
+    isAuthenticated: function() {
+        const self = this;
+        return new bPromise(function(resolve, reject) {
+            if (!self.hasAuthentication()) {
+                resolve(false);
+            }
+            const token = self.getJWT();
+            const authURL = `${process.env.BASE_URL}/auth/`;
+            request.get(authURL)
+                .set('Authorization', token)
+                .end(function(error, response) {
+                    if (error) {
+                        reject(error);
+                    }
+                    resolve(true);
+                });
+        });
+    },
     getUser: function() {
         return localStorage.getItem('username');
     },
     getJWT: function() {
         return localStorage.getItem('token');
     },
-    getInitialState: function() {
-        if (this.isAuthenticated()) {
-            const authURL = `${process.env.BASE_URL}/auth/`;
-            request.get(authURL)
-                .query({auth: this.getJWT()})
-                .end(function(error, response) {
-                    if (error) {
-                        ReactRouter.browserHistory.push('/login/');
-                        throw error;
-                    }
-                    const username = response.body.user.username;
-                    const auth = response.headers.authorization;
-                    AuthActions.logUserIn(username, auth);
-                });
-        }
-        else {
-            ReactRouter.browserHistory.push('/login/');
-        }
+    getLastCheck: function() {
+        return localStorage.getItem('lastCheck');
     }
 });
 
@@ -84,5 +84,9 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload) {
     }
 });
 
+AuthStore.addChangeListener('LOGIN', function() {
+    const username = AuthStore.getUser();
+    ReactRouter.browserHistory.push(`/users/${username}/`);
+});
 
 module.exports = AuthStore;

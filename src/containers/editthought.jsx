@@ -17,18 +17,12 @@ module.exports = React.createClass({
         }
     },
 
-    getInitialState: function() {
-        return {authenticated: AuthStore.isAuthenticated()};
-    },
-
-    componentWillMount: function() {
-        AuthStore.getInitialState()
+    componentDidMount: function() {
         this.action = `${this.props.route.baseURL}/thoughts/`;
     },
 
     processForm: function(event) {
         event.preventDefault();
-        console.log(this.action);
         request.post(this.action)
             .type('form')
             .send({title: this.refs.title.value})
@@ -41,6 +35,7 @@ module.exports = React.createClass({
                 if (error) {
                     throw error;
                 }
+                console.log(response);
                 console.log(response);
             });
     },

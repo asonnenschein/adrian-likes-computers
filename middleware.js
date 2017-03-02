@@ -4,7 +4,7 @@
 module.exports = (database, jwt) => {
     return {
         requireAuthorization: (req, res, next) => {
-            const auth = req.headers.auth;
+            const auth = req.headers.authorization;
             try {
                 var decoded = jwt.verify(auth, process.env.JWT_SECRET);
             }
@@ -22,7 +22,7 @@ module.exports = (database, jwt) => {
                     if (!data) {
                         return res.status(401).json({error: "middleware.requireAuthorization() Failed: Could not find user."});
                     }
-                    req.user = data.toJSON();
+                    req.user = data;
                     return next();
                 })
                 .catch(function(error) {

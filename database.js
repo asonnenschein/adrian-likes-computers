@@ -42,16 +42,34 @@ const Users = bookshelf.Model.extend({
     }
 });
 
-const Tutorials = bookshelf.Model.extend({
-    tableName: 'tutorials',
-    idAttribute: 'tutorials_id',
+const UsersAbout = bookshelf.Model.extend({
+    tableName: 'users_about',
+    idAttribute: 'users_about_id',
     user: function() {
         return this.belongsTo(Users, 'users_id');
     }
 });
 
+const Tutorials = bookshelf.Model.extend({
+    tableName: 'tutorials',
+    idAttribute: 'tutorials_id',
+    user: function() {
+        return this.belongsTo(Users, 'users_id');
+    },
+    serialize: function() {
+        return {
+            url_path: this.attributes.url_path,
+            title: this.attributes.title,
+            description: this.attributes.description,
+            content_html: this.attributes.content_html,
+            created: this.attributes.created_datetime
+        }
+    }
+});
+
 
 module.exports = {
-  Users: Users,
-  Tutorials: Tutorials,
+    Users: Users,
+    UsersAbout: UsersAbout,
+    Tutorials: Tutorials
 };

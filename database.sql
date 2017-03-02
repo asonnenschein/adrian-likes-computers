@@ -6,6 +6,13 @@ CREATE TABLE users (
     registration_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE users_about (
+    users_about_id SERIAL PRIMARY KEY,
+    users_id INTEGER REFERENCES users(users_id) ON DELETE CASCADE,
+    about_markdown VARCHAR,
+    about_html VARCHAR
+);
+
 CREATE TABLE tutorials (
     tutorials_id SERIAL PRIMARY KEY,
     users_id INTEGER REFERENCES users(users_id) ON DELETE CASCADE,

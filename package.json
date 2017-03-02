@@ -57,9 +57,11 @@
     "events": "^1.1.1",
     "express": "^4.14.1",
     "flux": "^3.1.2",
+    "highlight.js": "^9.9.0",
     "jsonwebtoken": "^7.3.0",
     "keymirror": "^0.1.1",
     "knex": "^0.12.6",
+    "marked": "^0.3.6",
     "pg": "^6.1.2",
     "superagent": "^3.5.0",
     "winston": "^2.3.1"

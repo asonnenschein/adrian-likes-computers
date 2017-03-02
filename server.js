@@ -7,10 +7,16 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const server = express();
 const jwt = require('jsonwebtoken');
+const marked = require('marked');
 const database = require('./database');
 const middleware = require('./middleware')(database, jwt);
-const views = require('./views')(database, jwt);
+const views = require('./views')(database, jwt, marked);
 
+marked.setOptions({
+    highlight: function(code) {
+        return require('hightlight.js').highlightAuto(code).value();
+    }
+});
 
 server.set('port', process.env.PORT);
 server.use(bodyparser.json({limit: '25mb'}));
@@ -49,23 +55,18 @@ server.get('/auth/',
         return next();
     }, views.getAuth);
 
-server.get('/user/:username/',
-    middleware.requireAuthorization,
-    (req, res, next) => {
-        return next();
-    }, views.getUser);
-
 
 // Public Routes ==============================================================
-server.get('/work/',
-    (req, res, next) => {
-        return next();
-    }, views.getWork);
-
 server.get('/about/',
     (req, res, next) => {
         return next();
     }, views.getAbout);
+
+server.post('/about/',
+    middleware.requireAuthorization,
+    (req, res, next) => {
+        return next();
+    }, views.postAbout);
 
 server.get('/thoughts/:thoughts_id?/',
     (req, res, next) => {

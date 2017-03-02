@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = (database, jwt) => {
+module.exports = (database, jwt, marked) => {
     return {
         postRegister: (req, res, next) => {
             const username = req.body.username;
@@ -55,7 +55,7 @@ module.exports = (database, jwt) => {
         },
 
         getAuth: (req, res, next) => {
-            const auth = req.query.auth;
+            const auth = req.headers.authorization;
             try {
                 var decoded = jwt.verify(auth, process.env.JWT_SECRET);
             }
@@ -83,20 +83,25 @@ module.exports = (database, jwt) => {
                 });
         },
 
-        getUser: (req, res, next) => {
-
-        },
-
-        getWork: (req, res, next) => {
-
-        },
-
         getAbout: (req, res, next) => {
 
         },
 
         getThoughts: (req, res, next) => {
+            if (req.params.thoughts_id) {
 
+            }
+            else {
+                database.Tutorials
+                    .forge()
+                    .fetchAll({columns: ['tutorials_id', 'url_path', 'title', 'description', 'created_datetime']})
+                    .then(function(data) {
+                        return res.status(200).json({thoughts: data.models});
+                    })
+                    .catch(function(error) {
+                        return res.status(500).json({error: error});
+                    });
+            }
         },
 
         postThought: (req, res, next) => {
@@ -106,7 +111,28 @@ module.exports = (database, jwt) => {
             const content = req.body.content;
             const userID = req.user.id;
             database.Tutorials
-                .forge({})
+                .forge({
+                    users_id: userID,
+                    url_path: path,
+                    title: title,
+                    description: description,
+                    content_markdown: content,
+                    content_html: marked(content)
+                })
+                .save()
+                .then(function(data) {
+                    const auth = req.user.generateJWT();
+                    const thought = data.serialize();
+                    res.setHeader("Authorization", auth);
+                    return res.status(200).json({thought: thought});
+                })
+                .catch(function(error) {
+                    return res.status(500).json({error: error});
+                });
+        },
+
+        postAbout: (req, res, next) => {
+
         }
     }
 };
