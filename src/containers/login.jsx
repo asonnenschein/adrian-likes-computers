@@ -29,12 +29,15 @@ module.exports = React.createClass({
         const self = this;
         AuthStore.isAuthenticated().then(function(auth) {
             if (!auth) {
+                self.setState({authenticated: false});
                 return ReactRouter.browserHistory.push('/login/');
             }
-            self.setState({authenticated: true});
-            const username = AuthStore.getUser();
-            const token = AuthStore.getJWT();
-            return AuthActions.logUserIn(username, token);
+            else {
+                self.setState({authenticated: true});
+                const username = AuthStore.getUser();
+                const token = AuthStore.getJWT();
+                return AuthActions.logUserIn(username, token);
+            }
         })
         .catch(function(error) {
             throw error;

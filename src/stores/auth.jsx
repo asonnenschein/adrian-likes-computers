@@ -42,7 +42,7 @@ const AuthStoreObj = Object.assign(Object.create(EventEmitter.prototype), {
         const self = this;
         return new bPromise(function(resolve, reject) {
             if (!self.hasAuthentication()) {
-                resolve(false);
+                return resolve(false);
             }
             const token = self.getJWT();
             const authURL = `${process.env.BASE_URL}/auth/`;
@@ -84,7 +84,7 @@ AuthStore.dispatchToken = AppDispatcher.register(function(payload) {
     }
 });
 
-AuthStore.addChangeListener('LOGIN', function() {
+AuthStore.addChangeListener(LOGIN_EVENT, function() {
     const username = AuthStore.getUser();
     ReactRouter.browserHistory.push(`/users/${username}/`);
 });

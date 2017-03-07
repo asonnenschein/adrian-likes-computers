@@ -37,6 +37,7 @@ const ThoughtStoreObj = Object.assign(Object.create(EventEmitter.prototype), {
                     throw error;
                 }
                 self.thoughtIndex = response.body.thoughts;
+                self.emitChange(LOAD_THOUGHTS_EVENT);
             });
     }
 });

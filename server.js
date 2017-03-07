@@ -14,7 +14,7 @@ const views = require('./views')(database, jwt, marked);
 
 marked.setOptions({
     highlight: function(code) {
-        return require('hightlight.js').highlightAuto(code).value();
+        return require('highlight.js').highlightAuto(code).value;
     }
 });
 
