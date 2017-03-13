@@ -22,19 +22,31 @@ module.exports = React.createClass({
     },
 
     componentWillMount: function() {
-        const self = this;
         ThoughtStore.getInitialState();
+    },
+
+    componentDidMount: function() {
+        const self = this;
         ThoughtStore.addChangeListener('LOAD_THOUGHTS', function() {
             self.setState({thoughts: ThoughtStore.getThoughtIndex()});
         });
     },
 
     createThoughtComponent: function(thought) {
-        return <ThoughtComponent title={thought.title} url={thought.url_path} description={thought.description} created={thought.created} />;
+        return <ThoughtComponent key={thought.url_path} title={thought.title} url={thought.url_path} description={thought.description} created={thought.created} />;
     },
 
     createThoughtComponents: function(thoughts) {
         return thoughts.map(this.createThoughtComponent);
+    },
+
+    createThoughtsHeaderStyle: function() {
+        return {
+            fontFamily: "Coustard, serif",
+            fontWeight: "900",
+            fontSize: "40px",
+            marginBottom: "30px"
+        }
     },
 
     render: function() {
@@ -42,7 +54,10 @@ module.exports = React.createClass({
             return (<div></div>);
         }
         else {
-            return (<div>{this.createThoughtComponents(this.state.thoughts)}</div>);
+            return (<div>
+                <div style={this.createThoughtsHeaderStyle()} className="thoughts-header">thoughts.</div>
+                <div className="thoughts-list">{this.createThoughtComponents(this.state.thoughts)}</div>
+            </div>);
         }
     }
 

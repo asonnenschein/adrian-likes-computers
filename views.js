@@ -88,8 +88,16 @@ module.exports = (database, jwt, marked) => {
         },
 
         getThoughts: (req, res, next) => {
-            if (req.params.thoughts_id) {
-
+            if (req.params.thoughts_path) {
+                database.Tutorials
+                    .forge({url_path: req.params.thoughts_path})
+                    .fetch({columns: ['url_path', 'title', 'description', 'content_html', 'created_datetime']})
+                    .then(function(data) {
+                        return res.status(200).json({thought: data.toJSON()});
+                    })
+                    .catch(function(error) {
+                        return res.status(500).json({error: error});
+                    });
             }
             else {
                 database.Tutorials

@@ -25,20 +25,30 @@ const ThoughtStoreObj = Object.assign(Object.create(EventEmitter.prototype), {
     getThoughtIndex: function() {
         return this.thoughtIndex;
     },
-    getThought: function(thought) {
-
+    getActiveThought: function() {
+        return this.activeThought;
+    },
+    getThought: function(thought_path) {
+        const self = this;
+        const thoughtURL = `${process.env.BASE_URL}/thoughts/${thought_path}/`;
+        request.get(thoughtURL).end(function(error, response) {
+            if (error) {
+                throw error;
+            }
+            self.activeThought = response.body.thought;
+            self.emitChange(LOAD_THOUGHT_EVENT);
+        });
     },
     getInitialState: function() {
         const self = this;
-        const thoughtURL = `${process.env.BASE_URL}/thoughts/`
-        request.get(thoughtURL)
-            .end(function(error, response) {
-                if (error) {
-                    throw error;
-                }
-                self.thoughtIndex = response.body.thoughts;
-                self.emitChange(LOAD_THOUGHTS_EVENT);
-            });
+        const thoughtURL = `${process.env.BASE_URL}/thoughts/`;
+        request.get(thoughtURL).end(function(error, response) {
+            if (error) {
+                throw error;
+            }
+            self.thoughtIndex = response.body.thoughts;
+            self.emitChange(LOAD_THOUGHTS_EVENT);
+        });
     }
 });
 

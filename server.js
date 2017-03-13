@@ -68,12 +68,12 @@ server.post('/about/',
         return next();
     }, views.postAbout);
 
-server.get('/thoughts/:thoughts_id?/',
+server.get('/thoughts/:thoughts_path?/',
     (req, res, next) => {
         return next();
     }, views.getThoughts);
 
-server.post('/thoughts/:thoughts_id?/',
+server.post('/thoughts/:thoughts_path?/',
     middleware.requireAuthorization,
     (req, res, next) => {
         return next();

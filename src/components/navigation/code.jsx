@@ -15,7 +15,7 @@ module.exports = React.createClass({
     },
 
     render: function() {
-        return (<li><a style={this.createItemStyle()} href="/about">About</a></li>);
+        return (<li><a style={this.createItemStyle()} href="https://github.com/asonnenschein/">Code</a></li>);
     }
 
 });
