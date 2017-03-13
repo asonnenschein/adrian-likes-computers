@@ -48,7 +48,7 @@
     "webpack-dotenv-plugin": "^1.4.0"
   },
   "dependencies": {
-    "bcrypt": "^1.0.2",
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.1",
     "bookshelf": "^0.10.3",
