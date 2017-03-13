@@ -1,7 +1,7 @@
 'use strict';
 
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const knex = require('knex')(process.env.PG_URL);
 const bookshelf = require('bookshelf')(knex);
 const save = bookshelf.Model.prototype.save;
