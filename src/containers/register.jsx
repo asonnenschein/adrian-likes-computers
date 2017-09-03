@@ -24,7 +24,7 @@ module.exports = React.createClass({
     },
 
     componentWillMount: function() {
-        AuthStore.getInitialState()
+//        AuthStore.getInitialState()
         AuthStore.addChangeListener('LOGIN', function() {
             const username = AuthStore.getUser();
             return ReactRouter.browserHistory.push(`/users/${username}`);

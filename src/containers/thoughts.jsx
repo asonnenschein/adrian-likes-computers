@@ -28,7 +28,9 @@ module.exports = React.createClass({
     componentDidMount: function() {
         const self = this;
         ThoughtStore.addChangeListener('LOAD_THOUGHTS', function() {
-            self.setState({thoughts: ThoughtStore.getThoughtIndex()});
+            if (typeof self.state.thoughts === "undefined") {
+                self.setState({thoughts: ThoughtStore.getThoughtIndex()});
+            }
         });
     },
 
