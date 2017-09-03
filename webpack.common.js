@@ -4,34 +4,18 @@ const dotenv = require('webpack-dotenv-plugin');
 const BUILD_DIR = path.resolve(__dirname, 'build');
 const SRC_DIR = path.resolve(__dirname, 'src');
 
-
 module.exports = {
     entry: [
-        'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/only-dev-server',
         SRC_DIR + '/base.less',
         SRC_DIR + '/index.jsx'
     ],
     output: {
         path: BUILD_DIR,
-        filename: 'bundle.js',
         publicPath: '/'
     },
-    devTool: 'source-map',
     module: {
-        preLoaders: [
-            {
-                test: /\.jsx?$/,
-                loader: 'eslint-loader',
-                exclude: /node_modules/
-            }
-        ],
         loaders: [
             {
-                test: /\.jsx?/,
-                include: SRC_DIR,
-                loader: "react-hot-loader!babel-loader"
-            }, {
                 test: /\.css$/,
                 loader: "style-loader!css-loader"
             }, {
@@ -58,18 +42,11 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        contentBase: './build',
-        hot: true,
-        historyApiFallback: true
-    },
     eslint: {
         failOnWarning: true,
         failOnError: true
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new dotenv({sample: './.env.tpl', path: './.env'})
-    ],
-    debug: true
+    ]
 };
