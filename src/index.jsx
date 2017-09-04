@@ -17,6 +17,9 @@ const EditThought = require('./containers/editthought.jsx');
 const EditAbout = require('./containers/editabout.jsx');
 
 
+console.log(ReactRouter);
+
+
 ReactDOM.render(
     <ReactRouter.Router history={ReactRouter.browserHistory}>
         <ReactRouter.Route path="/login" component={Login} baseURL={process.env.BASE_URL} />

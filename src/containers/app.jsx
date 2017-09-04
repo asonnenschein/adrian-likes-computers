@@ -3,6 +3,10 @@ const Navigation = require('./navigation.jsx');
 
 module.exports = React.createClass({
 
+    componentWillMount: function() {
+        this.props.router.push('/thoughts');
+    },
+
     createWidthStyle: function() {
         return {
             maxWidth: "970px"
