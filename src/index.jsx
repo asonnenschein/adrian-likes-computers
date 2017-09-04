@@ -16,10 +16,6 @@ const Users = require('./containers/users.jsx');
 const EditThought = require('./containers/editthought.jsx');
 const EditAbout = require('./containers/editabout.jsx');
 
-
-console.log(ReactRouter);
-
-
 ReactDOM.render(
     <ReactRouter.Router history={ReactRouter.browserHistory}>
         <ReactRouter.Route path="/login" component={Login} baseURL={process.env.BASE_URL} />
@@ -31,7 +27,8 @@ ReactDOM.render(
             <ReactRouter.Route path="/users/:user/about" component={EditAbout} baseURL={process.env.BASE_URL} />
         </ReactRouter.Route>
 
-        <ReactRouter.Route path="/" component={App} baseURL={process.env.BASE_URL}>
+        <ReactRouter.Route name="home" path="/" component={App} baseURL={process.env.BASE_URL}>
+            <ReactRouter.IndexRedirect to="/thoughts" />
             <ReactRouter.Route path="thoughts" component={Thoughts} />
             <ReactRouter.Route path="thoughts/:thought" component={Thought} />
             <ReactRouter.Route path="work" component={Work} />
